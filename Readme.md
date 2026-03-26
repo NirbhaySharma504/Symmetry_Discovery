@@ -4,7 +4,7 @@ A research-oriented implementation for discovering and learning symmetries from 
 
 ---
 
-## 🚀 Overview
+## Overview
 
 This project explores how neural networks can **learn transformations (symmetries)** directly from data rather than relying on predefined rules.
 
@@ -17,22 +17,22 @@ Using MNIST as a controlled setting, the pipeline:
 
 ---
 
-## 📌 Tasks Completed
+## Tasks Completed
 
-### ✅ Task 1: Dataset Preparation & Latent Space
+### Task 1: Dataset Preparation & Latent Space
 
 - Created a rotated MNIST dataset (0°–330° in 30° steps)
 - Optional filtering for digits (e.g., 0–1 for efficiency)
 - Built and trained a **Variational Autoencoder (VAE)**
 - Encoded images into a structured latent space
 
-### ✅ Task 2: Supervised Symmetry Discovery
+### Task 2: Supervised Symmetry Discovery
 
 - Trained an **MLP on latent space**
 - Learned mappings corresponding to rotation transformations
 - Modeled symmetry as transformations between latent vectors
 
-### ✅ Task 3: Unsupervised Symmetry Discovery
+### Task 3: Unsupervised Symmetry Discovery
 
 - Learned symmetry operators directly from latent representations
 - Identified transformations that preserve class/logit structure
@@ -40,7 +40,7 @@ Using MNIST as a controlled setting, the pipeline:
 
 ---
 
-## 🧠 Key Components
+## Key Components
 
 ### Models
 
@@ -59,7 +59,7 @@ Using MNIST as a controlled setting, the pipeline:
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```
 symmetry_discovery/
@@ -83,13 +83,13 @@ symmetry_discovery/
 
 ---
 
-## ⚙️ Setup
+## Setup
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### ▶️ Usage
+### Usage
 
 Run the notebook for full pipeline:
 
@@ -108,7 +108,7 @@ The notebook handles:
 
 ---
 
-## 📊 Results & Visualizations
+## Results & Visualizations
 
 The project includes multiple evaluation tools:
 
@@ -119,16 +119,7 @@ The project includes multiple evaluation tools:
 
 ---
 
-## 💡 Highlights
-
-- Learns **symmetry as a function**, not a rule
-- Works in **latent space for efficiency**
-- Supports both **supervised and unsupervised discovery**
-- Designed for **research extensibility**
-
----
-
-## 🔬 Future Work
+## Future Work
 
 - Rotation-invariant networks (Bonus task)
 - Extend to other transformations (scaling, translation)
@@ -137,13 +128,13 @@ The project includes multiple evaluation tools:
 
 ---
 
-## 👤 Author
+## Author
 
-Nirbhay
+Nirbhay Sharma
 
 ---
 
-## 📄 License
+## License
 
 This project is for research and educational purposes.
 
