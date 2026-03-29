@@ -10,6 +10,7 @@ random.seed(SEED)
 np.random.seed(SEED)
 torch.manual_seed(SEED)
 torch.cuda.manual_seed_all(SEED)
+# Deterministic CuDNN settings favor reproducibility over peak throughput.
 torch.backends.cudnn.deterministic = True
 torch.backends.cudnn.benchmark = False
 
@@ -24,7 +25,7 @@ FIGS.mkdir(parents=True, exist_ok=True)
 DATA_DIR = BASE_DIR / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-# optimised data-loading params
+# Shared DataLoader knobs used across training/evaluation pipelines.
 NW, PM, PW, PF = 4, True, True, 2
 
 def savefig_cached(fig, filename, dpi=180):

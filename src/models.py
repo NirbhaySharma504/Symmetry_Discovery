@@ -94,6 +94,7 @@ class LatentClassifier(nn.Module):
 
     def forward(self, z):
         logits = self.net(z)
+        # Keep binary output as shape [B] for BCEWithLogitsLoss convenience.
         return logits.squeeze(-1) if self.num_classes == 1 else logits
 
 class SymmetryGenerator(nn.Module):
@@ -109,4 +110,5 @@ class SymmetryGenerator(nn.Module):
         )
 
     def forward(self, z, epsilon=1e-3):
+        # Small epsilon turns the network output into an infinitesimal update.
         return z + epsilon * self.net(z)  # infinitesimal generator

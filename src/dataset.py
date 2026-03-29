@@ -12,6 +12,8 @@ def create_rotated(images, labels):
     all_i, all_l, all_a = [], [], []
     for ai in range(NUM_ROTATIONS):
         angle = ai * ROTATION_STEP
+        # Keep labels aligned with each rotated copy, and track angle explicitly
+        # so downstream code can form supervised rotation pairs.
         all_i.append(TF.rotate(images, angle))
         all_l.append(labels)
         all_a.append(torch.full((len(labels),), angle, dtype=torch.long))
@@ -30,6 +32,7 @@ def load_data(max_digit=None, tag="rot"):
         imgs = ds.data.unsqueeze(1).float() / 255.0
         labs = ds.targets
         if max_digit is not None:
+            # Used in Task 1/3a to create the binary (0/1) subset.
             m = labs <= max_digit
             imgs, labs = imgs[m], labs[m]
         ri, rl, ra = create_rotated(imgs, labs)
@@ -40,6 +43,7 @@ def load_data(max_digit=None, tag="rot"):
     return tr, te
 
 def make_loader(d, bs=128, sh=True):
+    # Centralized DataLoader settings keep train/eval behavior consistent.
     return DataLoader(
         TensorDataset(d["images"], d["labels"], d["angles"]),
         batch_size=bs, shuffle=sh, num_workers=NW,

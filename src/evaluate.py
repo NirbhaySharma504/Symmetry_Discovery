@@ -22,6 +22,7 @@ def visualise_supervised(vae, rot_mlp, latent_data, n_rows=4):
     rot_mlp.eval()
 
     for row, lbl in enumerate(unique_labels[:n_rows]):
+        # Start each trajectory from a canonical orientation (0 deg).
         mask = (y == lbl) & (latent_data["angle"] == 0)
         idx = mask.nonzero(as_tuple=True)[0]
         if len(idx) == 0:
@@ -54,6 +55,7 @@ def visualise_unsupervised(vae, gen, latent_data, total_steps=25000,
 
     z, y = latent_data["z"], latent_data["y"]
     unique_labels = sorted(y.unique().tolist())[:n_rows]
+    # Uniformly sample snapshots along the full trajectory for visualization.
     show_every = max(1, total_steps // n_show)
 
     fig, axes = plt.subplots(len(unique_labels), n_show + 1,
@@ -104,6 +106,7 @@ def plot_symmetry_paths(gen, latent_data, steps=25000,
 
     colors = plt.cm.Set1(np.linspace(0, 1, max(10, len(y.unique()))))
     for lbl in sorted(y.unique().tolist()):
+        # Same 0 deg anchor so paths are comparable across labels.
         mask = (y == lbl) & (latent_data["angle"] == 0)
         idx = mask.nonzero(as_tuple=True)[0]
         if len(idx) == 0:
@@ -200,6 +203,7 @@ def visualise_rotation_trajectories(rot_mlp, latent_data):
     rot_mlp.eval()
     unique_labels = sorted(y.unique().tolist())
     for lbl in unique_labels:
+        # Trace a few example orbits per class for readability.
         mask = (y == lbl) & (latent_data["angle"].cpu() == 0)
         idx = mask.nonzero(as_tuple=True)[0][:3]  # 3 examples per digit
         for i in idx:

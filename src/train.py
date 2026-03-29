@@ -35,6 +35,7 @@ def train_vae(train_loader, test_loader, latent_dim=2, epochs=100,
     print(f"  training VAE (latent_dim={latent_dim}, epochs={epochs}, β_max={beta_max})")
 
     for ep in range(1, epochs + 1):
+        # Linear beta warmup helps avoid KL collapse in early epochs.
         beta = min(beta_max, beta_max * ep / beta_warmup)
 
         model.train()
@@ -110,6 +111,7 @@ def build_rotation_pairs(latent_data):
             continue
         tgt_indices = idx_map[(lbl, next_ang)]
         for si in indices:
+            # Randomly pair within the same class and next angle bucket.
             ti = random.choice(tgt_indices)
             src_list.append(z[si])
             tgt_list.append(z[ti])
@@ -175,6 +177,7 @@ def train_classifier(z_train, y_train, z_test, y_test,
 
     clf = LatentClassifier(latent_dim, num_classes).to(DEVICE)
     opt = optim.Adam(clf.parameters(), lr=lr)
+    # Binary task uses float targets (BCE); multiclass uses integer labels (CE).
     y_tr = y_train.float() if num_classes == 1 else y_train.long()
     ds = TensorDataset(z_train, y_tr)
     dl = DataLoader(ds, batch_size=256, shuffle=True,
@@ -260,6 +263,7 @@ def train_symmetry_generator(classifier, z_data, latent_dim=2,
 
         if loss.item() < best_loss:
             best_loss = loss.item()
+            # Clone tensors so later in-place updates do not overwrite best snapshot.
             best_state = {k: v.clone() for k, v in gen.state_dict().items()}
 
         if ep % 100 == 0 or ep == 1:
